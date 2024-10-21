@@ -1,0 +1,610 @@
+@font-face {
+  font-family: "Apercu Pro";
+  src: url("fonts/ApercuProRegular.woff2") format(woff2);
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Nastaliq Urdu";
+  src: url("fonts/NotoNastaliqUrdu-Regular.woff2") format(woff2);
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("fonts/NotoSans-Regular.woff2") format(woff2);
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("fonts/NotoSans-Medium.woff2") format(woff2);
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("fonts/NotoSans-Bold.woff2") format(woff2);
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/**
+  Нормализация блочной модели
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+    Убираем внутренние отступы слева тегам списков,
+    у которых есть атрибут class
+   */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+    Убираем внешние отступы body и двум другим тегам,
+    у которых есть атрибут class
+   */
+body,
+:where(blockquote, figure):where([class]) {
+  margin: 0;
+}
+
+/**
+    Убираем внешние отступы вертикали нужным тегам,
+    у которых есть атрибут class
+   */
+:where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  margin-left: 0;
+  padding: 0;
+  border: none;
+}
+
+/**
+    Убираем стандартный маркер маркированному списку,
+    у которого есть атрибут class
+   */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+    Обнуляем вертикальные внешние отступы параграфа,
+    объявляем локальную переменную для внешнего отступа вниз,
+    чтобы избежать взаимодействие с более сложным селектором
+   */
+p {
+  --paragraphMarginBottom: 24px;
+
+  margin-block: 0;
+}
+
+/**
+    Внешний отступ вниз для параграфа без атрибута class,
+    который расположен не последним среди своих соседних элементов
+   */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+    Упрощаем работу с изображениями
+   */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/**
+    Наследуем свойства шрифт для полей ввода
+   */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+      Пригодится в большинстве ситуаций
+      (когда, например, нужно будет "прижать" футер к низу сайта)
+     */
+  height: 100%;
+}
+
+/**
+    Плавный скролл
+   */
+html,
+:has(:target) {
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+      Пригодится в большинстве ситуаций
+      (когда, например, нужно будет "прижать" футер к низу сайта)
+     */
+  min-height: 100%;
+  /**
+      Унифицированный интерлиньяж
+     */
+  line-height: 1.5;
+}
+
+/**
+    Приводим к единому цвету svg-элементы
+   */
+svg *[fill] {
+  fill: currentColor;
+}
+svg *[stroke] {
+  stroke: currentColor;
+}
+
+/**
+    Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+   */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+    Удаляем все анимации и переходы для людей,
+    которые предпочитают их не использовать
+   */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Предназначен для добавления скрытых от глаз пользователя вспомогающих элементов */
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+:root {
+  --font-bold: "Noto Sans", sans-serif;
+  --font-medium: "Noto Sans", sans-serif;
+  --font-regular: "Noto Sans", sans-serif;
+  --font-regular-another: "Noto Nastaliq Urdu", sans-serif;
+  --font-pro-regular: "Apercu Pro", sans-serif;
+
+  --color-black: #000000;
+  --color-custom: #1c1e23;
+  --color-bg-first: #fff0f0;
+
+  --transition-button: 0.5s;
+}
+
+/* Уталитарные классы */
+
+.button {
+  padding: 13px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: #fff;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-medium);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.125px;
+  transition: var(--transition-button);
+  margin-bottom: 20px;
+}
+
+.cs-container {
+  display: flex;
+  width: 568px;
+  height: 260px;
+  margin: 16px;
+}
+
+.cs-image {
+  width: 284px;
+  height: auto;
+  border-radius: 8px;
+  padding: 0 12px;
+}
+
+.cs-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 284px;
+  height: auto;
+  margin-block: 11px;
+  padding: 16px 12px;
+}
+
+.cs-title {
+  margin-bottom: 8px;
+  color: var(--color-custom);
+  font-family: var(--font-bold);
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 34px;
+}
+
+.cs-boost {
+  margin-bottom: 16px;
+  font-family: var(--font-regular);
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+/* <--------> */
+
+/* Медиа запросы */
+
+/* <--------> */
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 123px;
+  height: 40px;
+  padding-inline: 10px;
+  margin-block: 40px;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-bold);
+  font-size: 36px;
+  font-weight: 700;
+  text-transform: uppercase;
+  width: 104px;
+  height: 49px;
+  padding-block: 5px;
+}
+
+.email-template-section {
+  display: flex;
+  justify-content: center;
+}
+
+.email-template-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 24px;
+  width: 544px;
+  width: 636px;
+}
+
+.template-box-title {
+  width: 504px;
+  height: 49px;
+  margin: 20px 20px 0 20px;
+}
+
+.template-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 49px;
+  font-family: var(--font-bold);
+  font-size: 36px;
+  font-weight: 700;
+  text-transform: capitalize;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  -webkit-text-stroke-width: 1;
+  -webkit-text-stroke-color: #000;
+}
+
+.template-box-image {
+  width: 504px;
+  height: 360px;
+  background-color: var(--color-bg-first);
+  border-radius: 20px;
+  padding-bottom: 1px;
+  margin-inline: 20px;
+}
+
+.template-box-boost {
+  width: 504px;
+  height: auto;
+  font-family: var(--font-regular);
+  font-weight: 400;
+  line-height: 24px;
+  font-size: 19px;
+  text-align: center;
+}
+
+.template-button {
+  padding: 13px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: #fff;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-medium);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.125px;
+  transition: var(--transition-button);
+  margin-bottom: 20px;
+}
+
+.template-button:hover {
+  background-color: lightgray;
+}
+
+.third-card-button {
+  transition: var(--transition-button);
+}
+
+.third-card-button:hover {
+  background-color: lightgray;
+}
+
+.second-card-button {
+  transition: var(--transition-button);
+}
+
+.second-card-button:hover {
+  background-color: lightgray;
+}
+
+.first-card-button {
+  transition: var(--transition-button);
+}
+
+.first-card-button:hover {
+  background-color: lightgray;
+}
+
+.customize-email {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 40px;
+  margin-block: 40px;
+}
+
+.customize-card-first {
+  display: flex;
+  width: 568px;
+  height: 260px;
+  margin: 16px;
+}
+
+.customize-card-second {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.first-card-image {
+  width: 284px;
+  height: auto;
+  border-radius: 8px;
+  padding: 0 12px;
+}
+
+.first-card-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 284px;
+  height: auto;
+  margin-block: 11px;
+  padding: 16px 12px;
+}
+
+.first-card-text-title {
+  margin-bottom: 8px;
+  color: var(--color-custom);
+  font-family: var(--font-bold);
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 34px;
+}
+
+.first-card-text-boost {
+  margin-bottom: 16px;
+  font-family: var(--font-regular);
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.create-email {
+  width: 599px;
+  height: 124px;
+  margin-inline: 0.5px;
+}
+
+.create-email-text {
+  width: 628px;
+  height: 124px;
+  margin-inline: 30px;
+  font-family: var(--font-pro-regular);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 153.5%;
+}
+
+.horizontal-line {
+  position: relative;
+  margin-bottom: 40px;
+  width: 45%;
+  height: 2px;
+  padding-inline: 30px;
+}
+
+.horizontal-line::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 559px;
+  height: 2px;
+  background-color: #000;
+  translate: -48% -50%;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 559px;
+  height: 250px;
+  margin: 0 20px 5px;
+}
+
+.footer-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 559px;
+  height: 180px;
+  margin: 12px 0 0 14px;
+}
+
+.footer-title {
+  color: #000;
+  text-align: center;
+  font-family: var(--font-regular-another);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 142.5%;
+}
+
+.footer-text {
+  text-align: center;
+  font-family: var(--font-regular);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 142.5%;
+  margin-bottom: 25px;
+}
+
+.footer-soc1als-icons {
+  margin-bottom: 25px;
+}
+
+.footer-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 26px;
+  width: 220px;
+  height: 24px;
+}
+
+svg * {
+  color: #000;
+}
+
+.footer-box-address {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 165px;
+  height: 42px;
+}
+
+.footer-address {
+  width: 165px;
+  height: 42px;
+  text-align: center;
+  font-family: var(--font-regular);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 142.5%;
+}
+
+.footer-unsubscribe-title {
+  width: 91px;
+  height: 21px;
+  text-align: center;
+  font-family: var(--font-regular);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 142.5%;
+  text-decoration: underline;
+  margin-inline: 37px;
+}
+
+.footer-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 91px;
+  height: 30px;
+  margin: 14px 0 0 8px;
+}
+
+.footer-logo {
+  width: 77px;
+  height: 36px;
+  text-align: center;
+  font-family: var(--font-bold);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  margin: 3px 7px 3px 7px;
+}
